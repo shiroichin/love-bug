@@ -610,7 +610,7 @@
       </div>
       <p class="greeting" id="greeting" data-anim>Hello, Babs.</p>
       <p class="eyebrow" data-anim>SG ↔ PH · Made with love</p>
-      <h1 data-split>Hi, <span class="italic">Mahal</span>.</h1>
+      <h1 data-split>Hi, <span class="italic">Babs</span>.</h1>
       <p data-anim style="margin:1.75rem auto 0;">Two countries apart. One heart. This little corner of the internet exists only because of you.</p>
       <p class="scroll-hint" data-anim>Scroll</p>
     </div>
@@ -728,7 +728,7 @@
           <div class="hint">Open when</div>
           <div class="note"><button class="close-note" aria-label="Close">×</button><p></p></div>
         </div>
-        <div class="envelope" data-anim data-note="Kung hindi ka makatulog — close your eyes and imagine my voice telling you good night. I'm right there. Ingat ka, mahal. Dream of me.">
+        <div class="envelope" data-anim data-note="Kung hindi ka makatulog — close your eyes and imagine my voice telling you good night. I'm right there. Ingat ka, babs. Dream of me.">
           <div class="flap"></div>
           <h3>You can't sleep</h3>
           <div class="hint">Open when</div>
@@ -746,7 +746,7 @@
           <div class="hint">Open when</div>
           <div class="note"><button class="close-note" aria-label="Close">×</button><p></p></div>
         </div>
-        <div class="envelope" data-anim data-note="Kung hindi ka proud sa sarili mo — I am. So proud. You're doing better than you think, and I see every bit of effort you make. Keep going, mahal.">
+        <div class="envelope" data-anim data-note="Kung hindi ka proud sa sarili mo — I am. So proud. You're doing better than you think, and I see every bit of effort you make. Keep going, bb ko.">
           <div class="flap"></div>
           <h3>You need courage</h3>
           <div class="hint">Open when</div>
@@ -837,11 +837,11 @@ const CONFIG = {
   tzYou: "Asia/Manila",
 
   // Hug button — pick one channel
-  whatsappNumber: "6591234567",
+  whatsappNumber: "6592485512",
   telegramHandle: "your_handle",
   hugChannel: "whatsapp",
 
-  eggKeys: "mahal"
+  eggKeys: "babs"
 };
 
 /* ================= BOOT ================= */
@@ -925,18 +925,18 @@ function startSite() {
     setTimeout(() => showToast("Happy anniversary of your yes ♥"), 2200);
   } else if (isMonthsaryDay) {
     document.body.classList.add("monthsary");
-    setTimeout(() => showToast("Happy monthsary, mahal ♥"), 2200);
+    setTimeout(() => showToast("Happy monthsary, babs ♥"), 2200);
   }
 
   /* --- Dynamic greeting based on HER time --- */
   try {
     const hourStr = new Intl.DateTimeFormat("en-GB", { timeZone: CONFIG.tzYou, hour: "2-digit", hour12: false }).format(now);
     const h = parseInt(hourStr, 10);
-    const greeting = h < 5 ? "Still awake, mahal?" :
-                     h < 12 ? "Good morning, mahal." :
-                     h < 18 ? "Good afternoon, mahal." :
-                     h < 22 ? "Good evening, mahal." :
-                              "Good night, mahal.";
+    const greeting = h < 5 ? "Still awake, babs ko?" :
+                     h < 12 ? "Good morning, bb." :
+                     h < 18 ? "Good afternoon, bb." :
+                     h < 22 ? "Good evening, babs." :
+                              "Good night, bb.";
     document.getElementById("greeting").textContent = greeting;
   } catch (e) {}
 
@@ -1200,7 +1200,7 @@ function startSite() {
 
   /* --- Letter typewriter --- */
   const letterBody =
-`Mahal,
+`Ailyn, Babs, bb, love of my life, my everything, asawa ko,
 
 Happy monthsary. I built this little world because words on a screen felt too small for what I feel.
 
