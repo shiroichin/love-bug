@@ -215,6 +215,11 @@
     font-size: clamp(1rem, 2vw, 1.25rem); color: var(--accent);
     margin-bottom: 1.2rem;
   }
+  .hero .callnames {
+    font-family: var(--serif); font-style: italic;
+    font-size: clamp(.9rem, 1.6vw, 1.05rem); color: var(--muted);
+    margin-top: 1.25rem; letter-spacing: .02em;
+  }
   .hero .scroll-hint {
     margin-top: 4rem; font-size: .72rem; letter-spacing: .4em;
     text-transform: uppercase; color: var(--muted);
@@ -231,8 +236,48 @@
     letter-spacing: .3em; text-transform: uppercase;
     color: var(--ink); margin-bottom: 1.5rem;
     box-shadow: 0 0 30px rgba(255,92,138,.15);
+    cursor: pointer;
   }
   .monthsary-banner .num { color: var(--gold); font-weight: 500; }
+
+  /* THE YES */
+  .yes-section {
+    text-align: center; align-items: center;
+    background:
+      radial-gradient(60% 50% at 50% 50%, rgba(255,92,138,.10), transparent 70%);
+  }
+  .yes-section .yes-date {
+    font-family: var(--sans); font-size: .72rem;
+    letter-spacing: .5em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 2rem;
+  }
+  .yes-section .yes-line {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(2.5rem, 8vw, 6.5rem);
+    line-height: 1.05; letter-spacing: -.02em;
+    max-width: 18ch; margin: 0 auto;
+  }
+  .yes-section .yes-line .italic { color: var(--accent); }
+  .yes-section .yes-sub {
+    font-family: var(--serif); font-style: italic;
+    font-size: clamp(1rem, 1.6vw, 1.25rem);
+    color: var(--muted); margin-top: 2rem;
+    max-width: 46ch; margin-left: auto; margin-right: auto;
+  }
+  .yes-section .yes-counter {
+    display: inline-flex; align-items: baseline; gap: .6rem;
+    margin-top: 3rem; padding: 1rem 1.6rem;
+    border: 1px solid var(--line); border-radius: 999px;
+    background: rgba(255,255,255,.025);
+  }
+  .yes-section .yes-counter .n {
+    font-family: var(--serif); font-size: clamp(1.5rem, 3vw, 2rem);
+    color: var(--accent); font-variant-numeric: tabular-nums;
+  }
+  .yes-section .yes-counter .lbl {
+    font-size: .68rem; letter-spacing: .3em;
+    text-transform: uppercase; color: var(--muted);
+  }
 
   /* LDR */
   .ldr {
@@ -344,7 +389,7 @@
     .event .body h3 { font-size: 1.5rem; }
   }
 
-  /* Gallery */
+  /* Gallery — 4 photos */
   .gallery { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1rem; }
   .photo { position: relative; overflow: hidden; border-radius: 14px; background: #1a1220; }
   .photo img {
@@ -377,11 +422,12 @@
 
   /* Envelopes */
   .envelopes {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 1.25rem; max-width: 1000px; margin: 2.5rem auto 0;
   }
   .envelope {
     position: relative; padding: 2rem 1.25rem 1.5rem;
+    min-height: 280px;
     border: 1px solid var(--line); border-radius: 16px;
     background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
     text-align: center;
@@ -410,19 +456,29 @@
   .envelope .hint { font-size: .72rem; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); }
   .envelope .note {
     position: absolute; inset: 0;
-    padding: 2rem 1.5rem;
+    padding: 2.75rem 1.25rem 1.25rem;
     background: rgba(11,7,16,.96);
-    backdrop-filter: blur(10px);
-    display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    display: block;
     text-align: left;
     opacity: 0; transform: translateY(100%);
     transition: opacity .5s, transform .55s cubic-bezier(.2,.8,.2,1);
     border-radius: inherit;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,92,138,.5) transparent;
   }
+  .envelope .note::-webkit-scrollbar { width: 4px; }
+  .envelope .note::-webkit-scrollbar-thumb { background: rgba(255,92,138,.5); border-radius: 4px; }
+  .envelope .note::-webkit-scrollbar-track { background: transparent; }
   .envelope.open .note { opacity: 1; transform: translateY(0); }
   .envelope .note p {
-    font-family: var(--script); font-size: 1.25rem;
-    line-height: 1.55; color: #f2e8f5; max-width: 100%;
+    font-family: var(--script);
+    font-size: clamp(1.05rem, 2.2vw, 1.2rem);
+    line-height: 1.5; color: #f2e8f5; max-width: 100%;
+    margin: 0; word-wrap: break-word; overflow-wrap: anywhere;
   }
   .envelope .close-note {
     position: absolute; top: .75rem; right: .9rem;
@@ -430,6 +486,12 @@
     background: rgba(255,255,255,.08); border: 1px solid var(--line);
     color: var(--ink); display: grid; place-items: center;
     font-size: 1rem; line-height: 1; cursor: pointer;
+    z-index: 2;
+  }
+  @media (max-width: 640px) {
+    .envelope { min-height: 230px; }
+    .envelope .note { padding: 2.75rem 1.1rem 1.1rem; }
+    .envelope .note p { font-size: 1.05rem; }
   }
 
   /* Reasons */
@@ -438,7 +500,9 @@
     font-family: var(--serif); font-style: italic;
     font-size: clamp(1.5rem, 4vw, 3rem); line-height: 1.25;
     min-height: 3em; max-width: 22ch; margin: 2.5rem auto;
+    transition: color .4s;
   }
+  .reason-text.final { color: var(--accent); }
   .counter-mini {
     font-size: .72rem; letter-spacing: .3em; text-transform: uppercase;
     color: var(--muted); margin-top: 1rem;
@@ -608,10 +672,11 @@
       <div class="monthsary-banner" id="monthsary-banner" data-anim style="display:none;">
         <span>♥</span> <span>Happy <span class="num" id="monthsary-num">1st</span> Monthsary</span> <span>♥</span>
       </div>
-      <p class="greeting" id="greeting" data-anim>Hello, Babs.</p>
+      <p class="greeting" id="greeting" data-anim>Hello, babs.</p>
       <p class="eyebrow" data-anim>SG ↔ PH · Made with love</p>
       <h1 data-split>Hi, <span class="italic">Babs</span>.</h1>
       <p data-anim style="margin:1.75rem auto 0;">Two countries apart. One heart. This little corner of the internet exists only because of you.</p>
+      <p class="callnames" data-anim>babs · bb · love of my life · Ailyn · my everything · asawa ko</p>
       <p class="scroll-hint" data-anim>Scroll</p>
     </div>
   </section>
@@ -670,7 +735,7 @@
           <div class="body">
             <span class="tag">Chapter One</span>
             <h3>The day we first knew each other</h3>
-            <p>Two strangers, one conversation, and something quietly beginning. I didn't know it yet, but everything was about to change.</p>
+            <p>Two strangers, one conversation, and something quietly beginning. A message that could have gone nowhere — and instead changed everything.</p>
           </div>
         </div>
         <div class="event" data-anim>
@@ -678,7 +743,7 @@
           <div class="body">
             <span class="tag">The day it became real</span>
             <h3>We met</h3>
-            <p>The day your voice, your laugh, your everything stopped being a screen and became a moment I'll never forget.</p>
+            <p>The day you stopped being a name on my screen and became a person I could reach. I still remember exactly how it felt.</p>
           </div>
         </div>
         <div class="event yes-event" data-anim>
@@ -701,8 +766,21 @@
     </div>
   </section>
 
-  <!-- GALLERY -->
-  <section data-label="03 / Us">
+  <!-- THE YES -->
+  <section class="yes-section" data-label="03 / The Yes">
+    <div class="container">
+      <p class="yes-date" data-anim>25 · 08 · 2026</p>
+      <h2 class="yes-line" data-split>You said <span class="italic">yes</span>.</h2>
+      <p class="yes-sub" data-anim>And the whole world got quieter. It was you, and it was me, and it was us.</p>
+      <div class="yes-counter" data-anim>
+        <span class="n" id="c-yes-cinema">0</span>
+        <span class="lbl">days since</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY (4 photos) -->
+  <section data-label="04 / Us">
     <div class="container">
       <p class="eyebrow" data-anim>Chapter Two</p>
       <h2 data-anim>Us, in pictures</h2>
@@ -716,37 +794,37 @@
   </section>
 
   <!-- OPEN WHEN ENVELOPES -->
-  <section data-label="04 / Open When">
+  <section data-label="05 / Open When">
     <div class="container" style="text-align:center;">
       <p class="eyebrow" data-anim>Chapter Three</p>
       <h2 data-anim>Open when…</h2>
-      <p data-anim style="margin:0 auto 1rem;">Little letters for the days I can't be there in person. Tap one when you need it.</p>
+      <p data-anim style="margin:0 auto 1rem;">Little letters for the days I can't be there in person. Tap one when you need it, babs.</p>
       <div class="envelopes">
-        <div class="envelope" data-anim data-note="Kung namimiss mo ako — I'm missing you too, at the exact same moment. Look up at the sky, I'm looking at it too. Same moon, same us.">
+        <div class="envelope" data-anim data-note="Kung namimiss mo ako, babs — I'm missing you at the exact same moment. Look up at the sky tonight. Same moon, same us.">
           <div class="flap"></div>
           <h3>You miss me</h3>
           <div class="hint">Open when</div>
           <div class="note"><button class="close-note" aria-label="Close">×</button><p></p></div>
         </div>
-        <div class="envelope" data-anim data-note="Kung hindi ka makatulog — close your eyes and imagine my voice telling you good night. I'm right there. Ingat ka, babs. Dream of me.">
+        <div class="envelope" data-anim data-note="Kung hindi ka makatulog, bb — close your eyes and imagine my voice saying good night. I'm right there beside you. Ingat ka. Dream of me.">
           <div class="flap"></div>
           <h3>You can't sleep</h3>
           <div class="hint">Open when</div>
           <div class="note"><button class="close-note" aria-label="Close">×</button><p></p></div>
         </div>
-        <div class="envelope" data-anim data-note="Kung malungkot ka — whatever it is, it's temporary and you are not alone. I'm proud of you for getting through today. Tomorrow will be softer.">
+        <div class="envelope" data-anim data-note="Kung malungkot ka, love of my life — whatever it is, it's temporary. You are not alone. I'm proud of you for getting through today, and tomorrow will be softer.">
           <div class="flap"></div>
           <h3>You're sad</h3>
           <div class="hint">Open when</div>
           <div class="note"><button class="close-note" aria-label="Close">×</button><p></p></div>
         </div>
-        <div class="envelope" data-anim data-note="Kung masaya ka — tell me everything. I want to hear your voice when you're happy. Screenshot this, then call me. I'll pick up.">
+        <div class="envelope" data-anim data-note="Kung masaya ka, Ailyn — tell me everything. I want to hear your voice when you're happy. Call me. I'll always pick up.">
           <div class="flap"></div>
           <h3>You're happy</h3>
           <div class="hint">Open when</div>
           <div class="note"><button class="close-note" aria-label="Close">×</button><p></p></div>
         </div>
-        <div class="envelope" data-anim data-note="Kung hindi ka proud sa sarili mo — I am. So proud. You're doing better than you think, and I see every bit of effort you make. Keep going, bb ko.">
+        <div class="envelope" data-anim data-note="Kung hindi ka proud sa sarili mo, asawa ko — I am. So proud. You're doing better than you think, and I see every bit of effort you make. Keep going.">
           <div class="flap"></div>
           <h3>You need courage</h3>
           <div class="hint">Open when</div>
@@ -757,18 +835,18 @@
   </section>
 
   <!-- REASONS -->
-  <section class="reasons" data-label="05 / Reasons">
+  <section class="reasons" data-label="06 / Reasons">
     <div class="container">
       <p class="eyebrow" data-anim>Chapter Four</p>
       <h2 data-anim>Reasons I love you</h2>
-      <p class="reason-text" id="reason">Tap the button.</p>
+      <p class="reason-text" id="reason">Tap the button, babs.</p>
       <button class="btn" id="reasonBtn" data-magnetic data-anim>Give me one</button>
       <div class="counter-mini" id="reason-count" data-anim></div>
     </div>
   </section>
 
   <!-- LETTER -->
-  <section data-label="06 / A Letter">
+  <section data-label="07 / A Letter">
     <div class="container">
       <p class="eyebrow" data-anim>Chapter Five</p>
       <h2 data-anim>A letter across the sea</h2>
@@ -780,7 +858,7 @@
   </section>
 
   <!-- COUNTERS -->
-  <section data-label="07 / Time">
+  <section data-label="08 / Time">
     <div class="container">
       <p class="eyebrow" data-anim>Chapter Six</p>
       <h2 data-anim>Time, together</h2>
@@ -806,18 +884,18 @@
   </section>
 
   <!-- FINALE -->
-  <section class="finale" data-label="08 / Always">
+  <section class="finale" data-label="09 / Always">
     <div class="container">
       <h2 data-split>Mahal kita, <span class="heart">♥</span></h2>
-      <p data-anim style="margin:1.5rem auto 0; max-width: 44ch;">No ocean, no border, no distance. Just you and me — always.</p>
+      <p data-anim style="margin:1.5rem auto 0; max-width: 44ch;">No ocean, no border, no distance. Just you and me — always, babs.</p>
       <button class="btn" id="celebrate" data-magnetic data-anim style="margin-top:2.5rem">One more thing</button>
     </div>
   </section>
 
-  <footer><p class="initials">Singapore ↔ Philippines · made by hand, for you</p></footer>
+  <footer><p class="initials">Singapore ↔ Philippines · made by hand, for Ailyn</p></footer>
 </main>
 
-<div id="egg">you found it. i knew you would. mahal kita. ♥</div>
+<div id="egg">you found it. i knew you would. mahal kita, babs. ♥</div>
 
 <script>
 /* ================= CONFIG ================= */
@@ -827,17 +905,15 @@ const CONFIG = {
   gateAnswer: "online",
 
   // YOUR DATES
-  firstKnew:  "2026-07-15",   // July 2026 — when we first knew each other
-  firstMet:   "2026-08-14",   // 14 August 2026 — when we met
-  sheSaidYes: "2026-08-25",   // 25 August 2026 — the day she said yes ⭐
-  nextVisit:  "2026-12-20",   // your next planned visit / reunion
+  firstKnew:  "2026-07-15",   // July 2026
+  firstMet:   "2026-08-14",   // 14 August 2026
+  sheSaidYes: "2026-08-25",   // 25 August 2026 ⭐
+  nextVisit:  "2026-12-20",   // your next planned visit
 
-  // Timezones
   tzMe:  "Asia/Singapore",
   tzYou: "Asia/Manila",
 
-  // Hug button — pick one channel
-  whatsappNumber: "6592485512",
+  whatsappNumber: "6591234567",
   telegramHandle: "your_handle",
   hugChannel: "whatsapp",
 
@@ -887,15 +963,13 @@ function startSite() {
     gsap.ticker.lagSmoothing(0);
   }
 
-  /* --- Special dates: monthsary + "the yes" --- */
+  /* --- Special dates --- */
   const firstMetDate = new Date(CONFIG.firstMet);
   const yesDate = new Date(CONFIG.sheSaidYes);
   const now = new Date();
   const dayOfMonth = now.getDate();
-
   const isMonthsaryDay = dayOfMonth === firstMetDate.getDate();
   const isYesAnniversary = dayOfMonth === yesDate.getDate() && now.getMonth() === yesDate.getMonth();
-
   const monthsSince = Math.max(1,
     (now.getFullYear() - firstMetDate.getFullYear()) * 12 +
     (now.getMonth() - firstMetDate.getMonth()) +
@@ -919,7 +993,6 @@ function startSite() {
     t.classList.add("show");
     setTimeout(() => t.classList.remove("show"), 5500);
   }
-
   if (isYesAnniversary) {
     document.body.classList.add("monthsary");
     setTimeout(() => showToast("Happy anniversary of your yes ♥"), 2200);
@@ -928,15 +1001,15 @@ function startSite() {
     setTimeout(() => showToast("Happy monthsary, babs ♥"), 2200);
   }
 
-  /* --- Dynamic greeting based on HER time --- */
+  /* --- Greeting --- */
   try {
     const hourStr = new Intl.DateTimeFormat("en-GB", { timeZone: CONFIG.tzYou, hour: "2-digit", hour12: false }).format(now);
     const h = parseInt(hourStr, 10);
-    const greeting = h < 5 ? "Still awake, babs ko?" :
-                     h < 12 ? "Good morning, bb." :
-                     h < 18 ? "Good afternoon, bb." :
+    const greeting = h < 5 ? "Still awake, babs?" :
+                     h < 12 ? "Good morning, babs." :
+                     h < 18 ? "Good afternoon, babs." :
                      h < 22 ? "Good evening, babs." :
-                              "Good night, bb.";
+                              "Good night, babs.";
     document.getElementById("greeting").textContent = greeting;
   } catch (e) {}
 
@@ -1040,7 +1113,7 @@ function startSite() {
       gsap.set(ring, { x: rx, y: ry });
       requestAnimationFrame(loop);
     })();
-    document.querySelectorAll("a, button, .btn, .photo, .envelope").forEach(el => {
+    document.querySelectorAll("a, button, .btn, .photo, .envelope, .monthsary-banner").forEach(el => {
       el.addEventListener("mouseenter", () => ring.classList.add("hover"));
       el.addEventListener("mouseleave", () => ring.classList.remove("hover"));
     });
@@ -1061,7 +1134,7 @@ function startSite() {
     });
   }
 
-  /* --- Live timezone clocks --- */
+  /* --- Clocks --- */
   function fmt(date, tz, withSeconds) {
     return new Intl.DateTimeFormat("en-GB", {
       timeZone: tz, hour: "2-digit", minute: "2-digit",
@@ -1080,18 +1153,18 @@ function startSite() {
     return (local - date) / 3600000;
   }
   function updateClocks() {
-    const n = new Date();
+    const nn = new Date();
     const sg = document.getElementById("clock-sg");
     const ph = document.getElementById("clock-ph");
     if (!sg) return;
-    sg.textContent = fmt(n, CONFIG.tzMe, true);
-    ph.textContent = fmt(n, CONFIG.tzYou, true);
-    document.getElementById("clock-you").textContent = fmt(n, CONFIG.tzYou, false);
-    document.getElementById("clock-me").textContent  = fmt(n, CONFIG.tzMe, false);
-    document.getElementById("day-you").textContent = fmtDay(n, CONFIG.tzYou);
-    document.getElementById("day-me").textContent  = fmtDay(n, CONFIG.tzMe);
-    const offMe = tzOffsetHours(CONFIG.tzMe, n);
-    const offYou = tzOffsetHours(CONFIG.tzYou, n);
+    sg.textContent = fmt(nn, CONFIG.tzMe, true);
+    ph.textContent = fmt(nn, CONFIG.tzYou, true);
+    document.getElementById("clock-you").textContent = fmt(nn, CONFIG.tzYou, false);
+    document.getElementById("clock-me").textContent  = fmt(nn, CONFIG.tzMe, false);
+    document.getElementById("day-you").textContent = fmtDay(nn, CONFIG.tzYou);
+    document.getElementById("day-me").textContent  = fmtDay(nn, CONFIG.tzMe);
+    const offMe = tzOffsetHours(CONFIG.tzMe, nn);
+    const offYou = tzOffsetHours(CONFIG.tzYou, nn);
     const d = offMe - offYou;
     document.getElementById("clock-diff").textContent = d === 0 ? "0h" : (d > 0 ? "+" : "") + d + "h";
   }
@@ -1101,19 +1174,27 @@ function startSite() {
   /* --- Envelopes --- */
   document.querySelectorAll(".envelope").forEach(env => {
     const noteText = env.dataset.note || "";
-    env.querySelector(".note p").textContent = noteText;
+    const noteEl = env.querySelector(".note");
+    const noteP  = noteEl.querySelector("p");
+    noteP.textContent = noteText;
+
+    noteEl.addEventListener("click", (e) => e.stopPropagation());
+    noteEl.addEventListener("touchstart", (e) => e.stopPropagation(), { passive: true });
+
     env.addEventListener("click", (e) => {
-      if (e.target.classList.contains("close-note")) return;
+      if (e.target.closest(".close-note")) return;
       if (env.classList.contains("open")) return;
       env.classList.add("open");
     });
+
     env.querySelector(".close-note").addEventListener("click", (e) => {
       e.stopPropagation();
       env.classList.remove("open");
+      noteEl.scrollTop = 0;
     });
   });
 
-  /* --- Reasons --- */
+  /* --- Reasons (with reset) --- */
   const reasons = [
     "Your smile makes ordinary days feel like something.",
     "You laugh at my terrible jokes — and mean it.",
@@ -1129,15 +1210,34 @@ function startSite() {
   let ri = 0;
   const reasonEl = document.getElementById("reason");
   const reasonCount = document.getElementById("reason-count");
+  const reasonBtn = document.getElementById("reasonBtn");
+
   function updateReasonCount() {
-    reasonCount.textContent = ri === 0 ? "" : `${ri} of ${reasons.length}`;
+    if (ri === 0) { reasonCount.textContent = ""; return; }
+    if (ri >= reasons.length) {
+      reasonCount.textContent = `${reasons.length} of ${reasons.length}`;
+    } else {
+      reasonCount.textContent = `${ri} of ${reasons.length}`;
+    }
   }
-  document.getElementById("reasonBtn").addEventListener("click", () => {
+
+  reasonBtn.addEventListener("click", () => {
     gsap.to(reasonEl, {
       opacity: 0, y: -12, duration: 0.25, ease: "power2.in",
       onComplete: () => {
-        reasonEl.textContent = reasons[ri % reasons.length]; ri++;
-        updateReasonCount();
+        if (ri >= reasons.length) {
+          reasonEl.textContent = "…and 990 more. Ask me anytime, babs.";
+          reasonEl.classList.add("final");
+          reasonCount.textContent = "read them all";
+          reasonBtn.textContent = "Start again";
+          ri = 0;
+        } else {
+          reasonEl.classList.remove("final");
+          reasonEl.textContent = reasons[ri];
+          ri++;
+          updateReasonCount();
+          reasonBtn.textContent = ri >= reasons.length ? "One more thing…" : "Give me one";
+        }
         gsap.fromTo(reasonEl, { opacity: 0, y: 12 },
           { opacity: 1, y: 0, duration: 0.55, ease: "power2.out" });
       }
@@ -1151,6 +1251,7 @@ function startSite() {
   const cN = document.getElementById("c-next");
   const cY = document.getElementById("c-yes");
   const cL = document.getElementById("c-live");
+  const cYesCinema = document.getElementById("c-yes-cinema");
   const daysBetween = (a, b) => Math.round((b - a) / 86400000);
   const absDays = (a, b) => Math.abs(daysBetween(a, b));
 
@@ -1167,30 +1268,23 @@ function startSite() {
     trigger: "#c-together", start: "top 85%", once: true,
     onEnter: () => {
       const n2 = new Date();
-
-      // Days since we met (or until, if future)
       const metDiff = daysBetween(firstMetDate, n2);
-      if (metDiff >= 0) {
-        animateNum(cT, metDiff);
-      } else {
+      if (metDiff >= 0) animateNum(cT, metDiff);
+      else {
         cT.textContent = absDays(firstMetDate, n2).toLocaleString();
         document.getElementById("c-together-label").textContent = "Days until we meet";
       }
 
-      // Days since she said yes (or until, if future)
       const yesDiff = daysBetween(yesDate, n2);
-      if (yesDiff >= 0) {
-        animateNum(cY, yesDiff);
-      } else {
+      if (yesDiff >= 0) animateNum(cY, yesDiff);
+      else {
         cY.textContent = absDays(yesDate, n2).toLocaleString();
         document.getElementById("c-yes-label").textContent = "Days until you say yes";
       }
 
-      // Days to next visit
       const visitDiff = daysBetween(n2, nextVisit);
       animateNum(cN, Math.max(0, visitDiff));
 
-      // Heartbeats since I first knew you
       const secs = Math.max(0, Math.floor((n2 - firstKnew) / 1000));
       let liveSecs = secs;
       cL.textContent = liveSecs.toLocaleString();
@@ -1198,9 +1292,17 @@ function startSite() {
     }
   });
 
-  /* --- Letter typewriter --- */
+  ScrollTrigger.create({
+    trigger: ".yes-section", start: "top 70%", once: true,
+    onEnter: () => {
+      const d = Math.max(0, daysBetween(yesDate, new Date()));
+      animateNum(cYesCinema, d);
+    }
+  });
+
+  /* --- Letter --- */
   const letterBody =
-`Ailyn, Babs, bb, love of my life, my everything, asawa ko,
+`Babs,
 
 Happy monthsary. I built this little world because words on a screen felt too small for what I feel.
 
@@ -1211,6 +1313,8 @@ And then on August 25, you said yes. I still replay that moment. The world got q
 Now we live under the same sky but in different cities. Singapore is loud and busy, but the quietest part of my day is always you.
 
 Every "good morning" across the water, every call that runs too long, every "ingat ka" — those are my favorite things.
+
+Bb, love of my life, Ailyn, my everything, asawa ko — you are all of it and more.
 
 No distance can measure what I feel for you.
 
@@ -1242,7 +1346,7 @@ I'm not going anywhere.`;
     }
   });
 
-  /* --- Confetti finale --- */
+  /* --- Confetti --- */
   const heartShape = confetti.shapeFromText ? confetti.shapeFromText({ text: "♥", scalar: 2 }) : undefined;
   document.getElementById("celebrate").addEventListener("click", () => {
     const end = Date.now() + 1600;
@@ -1257,7 +1361,7 @@ I'm not going anywhere.`;
     })();
   });
 
-  /* --- Audio (autoplay on first tap) --- */
+  /* --- Audio --- */
   const music = document.getElementById("music");
   const audioBtn = document.getElementById("audio-toggle");
   let playing = false;
@@ -1293,7 +1397,7 @@ I'm not going anywhere.`;
     hug.href = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent("I need a hug 🤗")}`;
   }
 
-  /* --- Easter egg (keyboard) --- */
+  /* --- Easter eggs --- */
   let buffer = "";
   addEventListener("keydown", e => {
     if (e.key.length !== 1) return;
@@ -1305,7 +1409,6 @@ I'm not going anywhere.`;
     }
   });
 
-  /* --- Easter egg (mobile: tap the monthsary banner 5×) --- */
   let taps = 0;
   const bannerEl = document.getElementById("monthsary-banner");
   if (bannerEl) {
