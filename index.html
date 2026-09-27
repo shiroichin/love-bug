@@ -16,9 +16,11 @@
 <meta property="og:image" content="assets/og.jpg" />
 
 <link rel="manifest" href="manifest.webmanifest" />
-<link rel="apple-touch-icon" href="assets/icon-192.png" />
 
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>♥</text></svg>" />
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
+<link rel="apple-touch-icon" sizes="152x152" href="assets/apple-touch-icon.png" />
+<link rel="apple-touch-icon" sizes="167x167" href="assets/apple-touch-icon.png" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -239,6 +241,97 @@
   }
   .monthsary-banner .num { color: var(--gold); font-weight: 500; }
 
+  .rightnow {
+    display: inline-flex; align-items: center; gap: .75rem;
+    max-width: 520px;
+    padding: 1rem 1.5rem; border-radius: 999px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid var(--line);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    margin: 2rem auto 0;
+    text-align: left;
+  }
+  .rightnow .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #4ade80;
+    box-shadow: 0 0 0 0 rgba(74,222,128,.7);
+    animation: livePulse 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  @keyframes livePulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(74,222,128,.6); }
+    50%     { box-shadow: 0 0 0 10px rgba(74,222,128,0); }
+  }
+  .rightnow .txt {
+    font-family: var(--sans); font-size: .85rem;
+    color: var(--ink); letter-spacing: .01em;
+    line-height: 1.4;
+  }
+  .rightnow .txt .muted { color: var(--muted); }
+  @media (max-width: 640px) {
+    .rightnow { padding: .85rem 1.1rem; gap: .5rem; }
+    .rightnow .txt { font-size: .78rem; }
+  }
+
+  .voice-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem; max-width: 1000px; margin: 2.5rem auto 0;
+  }
+  .voice {
+    position: relative;
+    padding: 1.75rem 1.5rem;
+    border: 1px solid var(--line); border-radius: 18px;
+    background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+    text-align: left;
+    transition: transform .35s cubic-bezier(.2,.8,.2,1), border-color .3s, background .3s;
+    overflow: hidden;
+  }
+  .voice:hover { transform: translateY(-3px); border-color: rgba(255,92,138,.45); }
+  .voice.playing { border-color: var(--accent); background: rgba(255,92,138,.06); }
+  .voice .v-icon {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: linear-gradient(180deg, var(--accent), var(--accent-2));
+    display: grid; place-items: center;
+    box-shadow: 0 8px 20px rgba(255,92,138,.35);
+    margin-bottom: 1rem; cursor: pointer;
+    transition: transform .3s;
+  }
+  .voice.playing .v-icon { animation: pulseRing 1.6s ease-in-out infinite; }
+  @keyframes pulseRing {
+    0%,100% { box-shadow: 0 8px 20px rgba(255,92,138,.35), 0 0 0 0 rgba(255,92,138,.5); }
+    50%     { box-shadow: 0 8px 20px rgba(255,92,138,.35), 0 0 0 12px rgba(255,92,138,0); }
+  }
+  .voice .v-icon svg { width: 16px; height: 16px; color: #fff; fill: #fff; }
+  .voice h3 {
+    font-family: var(--serif); font-size: 1.2rem;
+    font-weight: 500; margin-bottom: .35rem;
+  }
+  .voice .v-desc {
+    font-size: .82rem; color: var(--muted); line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+  .voice .v-bar {
+    position: relative; height: 3px; border-radius: 3px;
+    background: rgba(255,255,255,.08);
+    overflow: hidden; margin-top: .5rem;
+  }
+  .voice .v-bar .v-progress {
+    position: absolute; inset: 0 auto 0 0; width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    transition: width .15s linear;
+  }
+  .voice .v-time {
+    display: flex; justify-content: space-between;
+    font-size: .65rem; color: var(--muted);
+    margin-top: .5rem; letter-spacing: .15em;
+    font-variant-numeric: tabular-nums;
+  }
+  @media (max-width: 640px) {
+    .voice { padding: 1.5rem 1.25rem; }
+    .voice h3 { font-size: 1.1rem; }
+  }
+
   .yes-section {
     text-align: center; align-items: center;
     background: radial-gradient(60% 50% at 50% 50%, rgba(255,92,138,.10), transparent 70%);
@@ -276,6 +369,7 @@
     text-transform: uppercase; color: var(--muted);
   }
 
+  /* LDR + WEATHER */
   .ldr {
     display: grid; grid-template-columns: 1fr auto 1fr;
     align-items: center; gap: clamp(1rem, 4vw, 3rem);
@@ -285,7 +379,50 @@
     text-align: center; padding: 2rem 1rem;
     border: 1px solid var(--line); border-radius: 18px;
     background: rgba(255,255,255,.025);
+    position: relative; overflow: hidden;
   }
+  .city .weather-canvas {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: .85;
+  }
+  .city > *:not(.weather-canvas) {
+    position: relative; z-index: 1;
+  }
+
+  /* Weather tint overlays */
+  .city.effect-clear::before {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(circle at 75% 20%,
+      rgba(255, 200, 100, .28), transparent 55%);
+    pointer-events: none; z-index: 0;
+  }
+  .city.effect-rain::before,
+  .city.effect-thunder::before {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 0%,
+      rgba(90, 140, 220, .18), transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+  .city.effect-fog::before {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg,
+      rgba(200, 200, 220, .10), transparent 50%, rgba(200, 200, 220, .08));
+    pointer-events: none; z-index: 0;
+  }
+  .city.effect-night::before {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 30%,
+      rgba(120, 130, 200, .18), transparent 65%);
+    pointer-events: none; z-index: 0;
+  }
+  .city.effect-thunder.flash::before {
+    background: rgba(255, 255, 255, .18);
+    transition: background .08s;
+  }
+
   .city .flag { font-size: 2.4rem; line-height: 1; margin-bottom: .75rem; display: block; }
   .city .name { font-family: var(--serif); font-size: 1.5rem; margin-bottom: .35rem; }
   .city .time {
@@ -293,7 +430,37 @@
     font-size: 1.1rem; color: var(--accent);
     font-variant-numeric: tabular-nums;
   }
-  .city .zone { font-size: .68rem; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); margin-top: .5rem; }
+  .city .weather {
+    display: flex; align-items: center; justify-content: center;
+    gap: .5rem; margin-top: .75rem; flex-wrap: wrap;
+    font-family: var(--sans); font-size: .85rem;
+    color: var(--ink);
+  }
+  .city .weather .temp {
+    font-family: var(--serif); font-size: 1.15rem;
+    color: var(--accent); font-variant-numeric: tabular-nums;
+  }
+  .city .weather .desc {
+    color: var(--muted); font-size: .78rem;
+    text-transform: lowercase;
+  }
+  .city .weather .emoji { font-size: 1.1rem; line-height: 1; }
+  .city .weather .rain-note {
+    color: var(--accent); font-style: italic;
+    font-family: var(--serif); font-size: .8rem;
+    flex-basis: 100%; margin-top: .25rem;
+  }
+  .city .weather.loading,
+  .city .weather.error {
+    color: var(--muted); font-size: .72rem;
+    letter-spacing: .2em; text-transform: uppercase;
+  }
+  .city .weather.error { opacity: .5; }
+  .city .zone { font-size: .68rem; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); margin-top: .75rem; }
+  @media (max-width: 640px) {
+    .city .weather { font-size: .78rem; }
+    .city .weather .temp { font-size: 1.05rem; }
+  }
 
   .bridge {
     position: relative; height: 2px; width: 100%;
@@ -537,6 +704,13 @@
     font-family: var(--script); font-size: 1.6rem;
     color: var(--accent); margin-top: 2rem; text-align: right; opacity: 0;
   }
+  .letter .today-tag {
+    display: inline-block; font-size: .62rem; letter-spacing: .3em;
+    text-transform: uppercase; color: var(--gold);
+    border: 1px solid rgba(245,199,110,.35);
+    padding: .25rem .7rem; border-radius: 999px;
+    margin-bottom: 1.5rem;
+  }
   @media (max-width: 640px) {
     .letter { padding: 2.5rem 1.5rem; border-radius: 16px; }
     .letter::before { inset: 8px; }
@@ -667,30 +841,40 @@
       <h1 data-split>Hi, <span class="italic">Babs</span>.</h1>
       <p data-anim style="margin:1.75rem auto 0;">Two countries apart. One heart. This little corner of the internet exists only because of you.</p>
       <p class="callnames" data-anim>babs · bb · love of my life · Ailyn · my everything · asawa ko</p>
+
+      <div class="rightnow" id="rightnow" data-anim>
+        <span class="dot"></span>
+        <span class="txt"><span class="muted">Right now:</span> <span id="rightnow-text">thinking of you.</span></span>
+      </div>
+
       <p class="scroll-hint" data-anim>Scroll</p>
     </div>
   </section>
 
-  <!-- LDR DISTANCE -->
+  <!-- LDR DISTANCE + WEATHER -->
   <section data-label="01 / Two Cities">
     <div class="container" style="text-align:center;">
       <p class="eyebrow" data-anim>The distance</p>
       <h2 data-anim>2,400 km apart.<br><span class="italic">Zero miles between hearts.</span></h2>
       <div class="ldr" data-anim>
-        <div class="city">
+        <div class="city city-sg">
+          <canvas class="weather-canvas" id="canvas-sg"></canvas>
           <span class="flag">🇸🇬</span>
           <div class="name">Singapore</div>
           <div class="time" id="clock-sg">--:--:--</div>
+          <div class="weather loading" id="weather-sg">loading…</div>
           <div class="zone">Where I am · GMT+8</div>
         </div>
         <div class="bridge">
           <span class="heart-fly">♥</span>
           <span class="km">2,400 km of missing you</span>
         </div>
-        <div class="city">
+        <div class="city city-ph">
+          <canvas class="weather-canvas" id="canvas-ph"></canvas>
           <span class="flag">🇵🇭</span>
-          <div class="name">Philippines</div>
+          <div class="name">Nueva Ecija</div>
           <div class="time" id="clock-ph">--:--:--</div>
+          <div class="weather loading" id="weather-ph">loading…</div>
           <div class="zone">Where you are · GMT+8</div>
         </div>
       </div>
@@ -756,8 +940,54 @@
     </div>
   </section>
 
+  <!-- VOICE NOTES -->
+  <section data-label="03 / My Voice">
+    <div class="container" style="text-align:center;">
+      <p class="eyebrow" data-anim>Hear me</p>
+      <h2 data-anim>My voice, for you</h2>
+      <p data-anim style="margin:0 auto;">For when you miss me, or when you just need to hear me. Tap to play, babs.</p>
+      <div class="voice-grid">
+        <div class="voice" data-anim data-src="assets/voice/voice-1.mp3">
+          <div class="v-icon"><svg viewBox="0 0 24 24"><polygon points="6,4 20,12 6,20"/></svg></div>
+          <h3>Good morning</h3>
+          <div class="v-desc">Start your day with me.</div>
+          <div class="v-bar"><div class="v-progress"></div></div>
+          <div class="v-time"><span class="v-current">0:00</span><span class="v-dur">--:--</span></div>
+        </div>
+        <div class="voice" data-anim data-src="assets/voice/voice-2.mp3">
+          <div class="v-icon"><svg viewBox="0 0 24 24"><polygon points="6,4 20,12 6,20"/></svg></div>
+          <h3>Good night</h3>
+          <div class="v-desc">Sleep well, bb.</div>
+          <div class="v-bar"><div class="v-progress"></div></div>
+          <div class="v-time"><span class="v-current">0:00</span><span class="v-dur">--:--</span></div>
+        </div>
+        <div class="voice" data-anim data-src="assets/voice/voice-3.mp3">
+          <div class="v-icon"><svg viewBox="0 0 24 24"><polygon points="6,4 20,12 6,20"/></svg></div>
+          <h3>I miss you</h3>
+          <div class="v-desc">For when you're missing me too.</div>
+          <div class="v-bar"><div class="v-progress"></div></div>
+          <div class="v-time"><span class="v-current">0:00</span><span class="v-dur">--:--</span></div>
+        </div>
+        <div class="voice" data-anim data-src="assets/voice/voice-4.mp3">
+          <div class="v-icon"><svg viewBox="0 0 24 24"><polygon points="6,4 20,12 6,20"/></svg></div>
+          <h3>Be strong</h3>
+          <div class="v-desc">For the hard days.</div>
+          <div class="v-bar"><div class="v-progress"></div></div>
+          <div class="v-time"><span class="v-current">0:00</span><span class="v-dur">--:--</span></div>
+        </div>
+        <div class="voice" data-anim data-src="assets/voice/voice-5.mp3">
+          <div class="v-icon"><svg viewBox="0 0 24 24"><polygon points="6,4 20,12 6,20"/></svg></div>
+          <h3>I love you</h3>
+          <div class="v-desc">Just because.</div>
+          <div class="v-bar"><div class="v-progress"></div></div>
+          <div class="v-time"><span class="v-current">0:00</span><span class="v-dur">--:--</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- THE YES -->
-  <section class="yes-section" data-label="03 / The Yes">
+  <section class="yes-section" data-label="04 / The Yes">
     <div class="container">
       <p class="yes-date" data-anim>25 · 08 · 2026</p>
       <h2 class="yes-line" data-split>You said <span class="italic">yes</span>.</h2>
@@ -770,7 +1000,7 @@
   </section>
 
   <!-- GALLERY -->
-  <section data-label="04 / Us">
+  <section data-label="05 / Us">
     <div class="container">
       <p class="eyebrow" data-anim>Chapter Two</p>
       <h2 data-anim>Us, in pictures</h2>
@@ -784,7 +1014,7 @@
   </section>
 
   <!-- OPEN WHEN ENVELOPES -->
-  <section data-label="05 / Open When">
+  <section data-label="06 / Open When">
     <div class="container" style="text-align:center;">
       <p class="eyebrow" data-anim>Chapter Three</p>
       <h2 data-anim>Open when…</h2>
@@ -825,7 +1055,7 @@
   </section>
 
   <!-- REASONS -->
-  <section class="reasons" data-label="06 / Reasons">
+  <section class="reasons" data-label="07 / Reasons">
     <div class="container">
       <p class="eyebrow" data-anim>Chapter Four</p>
       <h2 data-anim>Reasons I love you</h2>
@@ -835,8 +1065,8 @@
     </div>
   </section>
 
-  <!-- LETTER -->
-  <section data-label="07 / A Letter">
+  <!-- YOUR ORIGINAL LETTER -->
+  <section data-label="08 / A Letter">
     <div class="container">
       <p class="eyebrow" data-anim>Chapter Five</p>
       <h2 data-anim>A letter across the sea</h2>
@@ -847,10 +1077,23 @@
     </div>
   </section>
 
-  <!-- COUNTERS -->
-  <section data-label="08 / Time">
+  <!-- DAILY LETTER -->
+  <section data-label="09 / Today's Note">
     <div class="container">
       <p class="eyebrow" data-anim>Chapter Six</p>
+      <h2 data-anim>A note for today</h2>
+      <div class="letter" data-anim>
+        <span class="today-tag" id="today-tag">Monday</span>
+        <p class="letter-text" id="daily-letter-text"></p>
+        <p class="signature" id="daily-signature">— today, from Singapore</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COUNTERS -->
+  <section data-label="10 / Time">
+    <div class="container">
+      <p class="eyebrow" data-anim>Chapter Seven</p>
       <h2 data-anim>Time, together</h2>
       <div class="counters">
         <div class="counter" data-anim>
@@ -874,7 +1117,7 @@
   </section>
 
   <!-- FINALE -->
-  <section class="finale" data-label="09 / Always">
+  <section class="finale" data-label="11 / Always">
     <div class="container">
       <h2 data-split>Mahal kita, <span class="heart">♥</span></h2>
       <p data-anim style="margin:1.5rem auto 0; max-width: 44ch;">No ocean, no border, no distance. Just you and me — always, babs.</p>
@@ -902,9 +1145,87 @@ const CONFIG = {
   tzMe:  "Asia/Singapore",
   tzYou: "Asia/Manila",
 
-  whatsappNumber: "6592485512",
+  // ===== WEATHER =====
+  weatherMe:  { lat: 1.3521, lon: 103.8198 },   // Singapore
+  weatherYou: { lat: 15.578, lon: 120.941 },    // Nueva Ecija
+
+  whatsappNumber: "6591234567",
   telegramHandle: "your_handle",
   hugChannel: "whatsapp",
+
+  rightNowFallback: "Thinking of you.",
+
+  schedule: {
+    1: [
+      { start: "07:00", end: "09:00", label: "Getting ready for work." },
+      { start: "09:00", end: "13:00", label: "At work. I'll reply during lunch." },
+      { start: "13:00", end: "14:00", label: "Lunch break — free to chat! 🍜" },
+      { start: "14:00", end: "18:00", label: "Back at work. Missing you." },
+      { start: "18:00", end: "19:00", label: "Commuting home." },
+      { start: "19:00", end: "23:00", label: "Home now. Free to call. 🛏️" },
+      { start: "23:00", end: "07:00", label: "Sleeping. Dream of me. 🌙" }
+    ],
+    2: [
+      { start: "07:00", end: "09:00", label: "Getting ready for work." },
+      { start: "09:00", end: "13:00", label: "At work. I'll reply during lunch." },
+      { start: "13:00", end: "14:00", label: "Lunch break — free to chat! 🍜" },
+      { start: "14:00", end: "18:00", label: "Back at work. Missing you." },
+      { start: "18:00", end: "19:00", label: "Commuting home." },
+      { start: "19:00", end: "23:00", label: "Home now. Free to call. 🛏️" },
+      { start: "23:00", end: "07:00", label: "Sleeping. Dream of me. 🌙" }
+    ],
+    3: [
+      { start: "07:00", end: "09:00", label: "Getting ready for work." },
+      { start: "09:00", end: "13:00", label: "At work. I'll reply during lunch." },
+      { start: "13:00", end: "14:00", label: "Lunch break — free to chat! 🍜" },
+      { start: "14:00", end: "18:00", label: "Back at work. Missing you." },
+      { start: "18:00", end: "19:00", label: "Commuting home." },
+      { start: "19:00", end: "23:00", label: "Home now. Free to call. 🛏️" },
+      { start: "23:00", end: "07:00", label: "Sleeping. Dream of me. 🌙" }
+    ],
+    4: [
+      { start: "07:00", end: "09:00", label: "Getting ready for work." },
+      { start: "09:00", end: "13:00", label: "At work. I'll reply during lunch." },
+      { start: "13:00", end: "14:00", label: "Lunch break — free to chat! 🍜" },
+      { start: "14:00", end: "18:00", label: "Back at work. Missing you." },
+      { start: "18:00", end: "19:00", label: "Commuting home." },
+      { start: "19:00", end: "23:00", label: "Home now. Free to call. 🛏️" },
+      { start: "23:00", end: "07:00", label: "Sleeping. Dream of me. 🌙" }
+    ],
+    5: [
+      { start: "07:00", end: "09:00", label: "Getting ready for work." },
+      { start: "09:00", end: "13:00", label: "At work. Almost weekend." },
+      { start: "13:00", end: "14:00", label: "Lunch break — free to chat! 🍜" },
+      { start: "14:00", end: "18:00", label: "Finishing up. TGIF 🎉" },
+      { start: "18:00", end: "19:00", label: "Commuting home." },
+      { start: "19:00", end: "23:00", label: "Weekend started. Free to call! 🍻" },
+      { start: "23:00", end: "07:00", label: "Sleeping. Dream of me. 🌙" }
+    ],
+    6: [
+      { start: "07:00", end: "09:00", label: "Slow Saturday morning. ☕" },
+      { start: "09:00", end: "12:00", label: "Running errands / gym." },
+      { start: "12:00", end: "18:00", label: "Free all day. Call me. 💕" },
+      { start: "18:00", end: "23:00", label: "Free. Let's watch something together." },
+      { start: "23:00", end: "07:00", label: "Sleeping. Dream of me. 🌙" }
+    ],
+    0: [
+      { start: "07:00", end: "09:00", label: "Slow Sunday morning. ☕" },
+      { start: "09:00", end: "12:00", label: "Rest and recharge." },
+      { start: "12:00", end: "18:00", label: "Free all day. Call me. 💕" },
+      { start: "18:00", end: "22:00", label: "Resting. Thinking of you." },
+      { start: "22:00", end: "07:00", label: "Sleeping. Dream of me. 🌙" }
+    ]
+  },
+
+  dailyLetters: {
+    1: "Start the week knowing I'm proud of you. You've got this, babs.",
+    2: "Just a reminder: you're the best thing that ever happened to me.",
+    3: "Halfway through the week. I'm rooting for you from Singapore.",
+    4: "One more day, then the weekend is ours. Miss you, bb.",
+    5: "It's Friday! I'm so proud of you for getting through the week.",
+    6: "Weekend. I wish I was doing nothing with you today. Soon, love.",
+    0: "Rest today, asawa ko. You deserve every soft moment."
+  },
 
   eggKeys: "babs"
 };
@@ -952,7 +1273,7 @@ function startSite() {
     gsap.ticker.lagSmoothing(0);
   }
 
-  /* ========== AUDIO (FIXED) ========== */
+  /* ========== AUDIO ========== */
   const music = document.getElementById("music");
   const audioBtn = document.getElementById("audio-toggle");
   let userHasInteracted = false;
@@ -971,32 +1292,397 @@ function startSite() {
   music.addEventListener("pause", syncAudioUI);
   syncAudioUI();
 
-  // Autoplay on first gesture anywhere EXCEPT the audio button
-  function tryAutoplayOnce(e) {
+  function playMusicNow() {
+    const p = music.play();
+    if (p && typeof p.then === "function") {
+      p.then(() => {
+        audioBtn.classList.remove("pulse");
+      }).catch(() => {});
+    }
+    audioBtn.classList.remove("pulse");
+  }
+
+  function handleFirstGesture(e) {
     if (userHasInteracted) return;
     if (e && e.target && e.target.closest && e.target.closest("#audio-toggle")) return;
-
     userHasInteracted = true;
-    music.play().catch(() => {
-      audioBtn.classList.remove("pulse");
-    });
+    playMusicNow();
   }
-  window.addEventListener("touchstart", tryAutoplayOnce, { passive: true });
-  window.addEventListener("click", tryAutoplayOnce);
+  window.addEventListener("touchstart", handleFirstGesture, { passive: true });
+  window.addEventListener("click", handleFirstGesture);
+  window.addEventListener("pointerdown", handleFirstGesture, { passive: true });
 
-  // Audio button — based on REAL state, never toggles twice
-  audioBtn.addEventListener("click", (e) => {
+  audioBtn.addEventListener("touchstart", (e) => {
     e.stopPropagation();
+    e.preventDefault();
     userHasInteracted = true;
     audioBtn.classList.remove("pulse");
+    if (music.paused) music.play().catch(() => {});
+    else music.pause();
+  }, { passive: false });
 
-    if (music.paused) {
-      music.play().catch(() => {});
-    } else {
-      music.pause();
-    }
+  audioBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (e.pointerType === "touch" || matchMedia("(hover: none)").matches) return;
+    userHasInteracted = true;
+    audioBtn.classList.remove("pulse");
+    if (music.paused) music.play().catch(() => {});
+    else music.pause();
   });
   /* ========== /AUDIO ========== */
+
+  /* --- Right Now widget --- */
+  function toMinutes(hhmm) {
+    const [h, m] = hhmm.split(":").map(Number);
+    return h * 60 + m;
+  }
+
+  function getScheduleForNow() {
+    try {
+      const now = new Date();
+      const parts = new Intl.DateTimeFormat("en-GB", {
+        timeZone: CONFIG.tzMe,
+        weekday: "short",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false
+      }).formatToParts(now);
+
+      const weekdayMap = { Sun:0, Mon:1, Tue:2, Wed:3, Thu:4, Fri:5, Sat:6 };
+      const wd = parts.find(p => p.type === "weekday").value;
+      const day = weekdayMap[wd];
+      const hour = parseInt(parts.find(p => p.type === "hour").value, 10);
+      const minute = parseInt(parts.find(p => p.type === "minute").value, 10);
+
+      const todayBlocks = (CONFIG.schedule && CONFIG.schedule[day]) || [];
+      const yesterdayBlocks = (CONFIG.schedule && CONFIG.schedule[(day + 6) % 7]) || [];
+      const nowMin = hour * 60 + minute;
+
+      for (const b of todayBlocks) {
+        const s = toMinutes(b.start);
+        const e = toMinutes(b.end);
+        if (s <= e) {
+          if (nowMin >= s && nowMin < e) return b.label;
+        } else {
+          if (nowMin >= s) return b.label;
+        }
+      }
+      for (const b of yesterdayBlocks) {
+        const s = toMinutes(b.start);
+        const e = toMinutes(b.end);
+        if (s > e) {
+          if (nowMin < e) return b.label;
+        }
+      }
+      return CONFIG.rightNowFallback || "Thinking of you.";
+    } catch (err) {
+      return CONFIG.rightNowFallback || "Thinking of you.";
+    }
+  }
+
+  const rn = document.getElementById("rightnow-text");
+  function updateRightNow() {
+    if (rn) rn.textContent = getScheduleForNow();
+  }
+  updateRightNow();
+  setInterval(updateRightNow, 60000);
+
+  /* ========== WEATHER + EFFECTS ========== */
+  const WEATHER_CODE_MAP = {
+    0:  { desc: "clear sky",       emoji: "☀️", effect: "clear" },
+    1:  { desc: "mainly clear",    emoji: "🌤️", effect: "clear" },
+    2:  { desc: "partly cloudy",   emoji: "⛅", effect: "clouds" },
+    3:  { desc: "overcast",        emoji: "☁️", effect: "clouds" },
+    45: { desc: "foggy",           emoji: "🌫️", effect: "fog" },
+    48: { desc: "freezing fog",    emoji: "🌫️", effect: "fog" },
+    51: { desc: "light drizzle",   emoji: "🌦️", effect: "rain" },
+    53: { desc: "drizzle",         emoji: "🌦️", effect: "rain" },
+    55: { desc: "heavy drizzle",   emoji: "🌧️", effect: "rain" },
+    61: { desc: "light rain",      emoji: "🌦️", effect: "rain" },
+    63: { desc: "rain",            emoji: "🌧️", effect: "rain" },
+    65: { desc: "heavy rain",      emoji: "🌧️", effect: "rain" },
+    71: { desc: "light snow",      emoji: "🌨️", effect: "snow" },
+    73: { desc: "snow",            emoji: "❄️", effect: "snow" },
+    75: { desc: "heavy snow",      emoji: "❄️", effect: "snow" },
+    80: { desc: "rain showers",    emoji: "🌦️", effect: "rain" },
+    81: { desc: "rain showers",    emoji: "🌧️", effect: "rain" },
+    82: { desc: "heavy showers",   emoji: "⛈️", effect: "thunder" },
+    95: { desc: "thunderstorm",    emoji: "⛈️", effect: "thunder" },
+    96: { desc: "thunderstorm",    emoji: "⛈️", effect: "thunder" },
+    99: { desc: "thunderstorm",    emoji: "⛈️", effect: "thunder" }
+  };
+
+  function weatherInfo(code) {
+    return WEATHER_CODE_MAP[code] || { emoji: "🌡️", desc: "—", effect: "none" };
+  }
+
+  const effectCleanups = {};
+
+  function stopEffect(canvasId) {
+    if (effectCleanups[canvasId]) {
+      effectCleanups[canvasId]();
+      effectCleanups[canvasId] = null;
+    }
+  }
+
+  function startEffect(canvasId, effect, isNight) {
+    stopEffect(canvasId);
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const ctx = canvas.getContext("2d");
+    let rafId = null;
+    let running = true;
+
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resize();
+
+    const W = () => canvas.width / (Math.min(window.devicePixelRatio || 1, 2));
+    const H = () => canvas.height / (Math.min(window.devicePixelRatio || 1, 2));
+
+    const particles = [];
+    let draw = () => {};
+
+    if (effect === "rain" || effect === "thunder") {
+      const count = effect === "thunder" ? 70 : 50;
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * W(),
+          y: Math.random() * H(),
+          len: 8 + Math.random() * 8,
+          speed: 4 + Math.random() * 4,
+          alpha: 0.15 + Math.random() * 0.35
+        });
+      }
+      draw = () => {
+        ctx.clearRect(0, 0, W(), H());
+        ctx.strokeStyle = "rgba(160, 200, 255, 0.7)";
+        ctx.lineWidth = 1;
+        for (const p of particles) {
+          ctx.globalAlpha = p.alpha;
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p.x - 1.5, p.y + p.len);
+          ctx.stroke();
+          p.y += p.speed;
+          p.x -= 0.4;
+          if (p.y > H()) { p.y = -10; p.x = Math.random() * W(); }
+        }
+        ctx.globalAlpha = 1;
+      };
+
+      if (effect === "thunder") {
+        const city = canvas.closest(".city");
+        const flashLoop = () => {
+          if (!running) return;
+          if (Math.random() < 0.15) {
+            city.classList.add("flash");
+            setTimeout(() => city.classList.remove("flash"), 100);
+          }
+          setTimeout(flashLoop, 2000 + Math.random() * 4000);
+        };
+        setTimeout(flashLoop, 1500);
+      }
+    }
+    else if (effect === "snow") {
+      for (let i = 0; i < 40; i++) {
+        particles.push({
+          x: Math.random() * W(),
+          y: Math.random() * H(),
+          r: 1 + Math.random() * 1.5,
+          vy: 0.3 + Math.random() * 0.6,
+          vx: -0.3 + Math.random() * 0.6,
+          alpha: 0.3 + Math.random() * 0.5
+        });
+      }
+      draw = () => {
+        ctx.clearRect(0, 0, W(), H());
+        ctx.fillStyle = "rgba(240, 245, 255, 0.9)";
+        for (const p of particles) {
+          ctx.globalAlpha = p.alpha;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+          p.y += p.vy; p.x += p.vx;
+          if (p.y > H()) { p.y = -5; p.x = Math.random() * W(); }
+        }
+        ctx.globalAlpha = 1;
+      };
+    }
+    else if (effect === "clouds") {
+      for (let i = 0; i < 3; i++) {
+        particles.push({
+          x: Math.random() * W(),
+          y: 20 + Math.random() * (H() / 2),
+          w: 60 + Math.random() * 80,
+          h: 18 + Math.random() * 12,
+          vx: 0.15 + Math.random() * 0.25,
+          alpha: 0.06 + Math.random() * 0.06
+        });
+      }
+      draw = () => {
+        ctx.clearRect(0, 0, W(), H());
+        for (const p of particles) {
+          ctx.globalAlpha = p.alpha;
+          ctx.fillStyle = "#dfe6f0";
+          ctx.beginPath();
+          ctx.ellipse(p.x, p.y, p.w, p.h, 0, 0, Math.PI * 2);
+          ctx.fill();
+          p.x += p.vx;
+          if (p.x - p.w > W()) p.x = -p.w;
+        }
+        ctx.globalAlpha = 1;
+      };
+    }
+    else if (effect === "fog") {
+      for (let i = 0; i < 4; i++) {
+        particles.push({
+          x: Math.random() * W(),
+          y: Math.random() * H(),
+          r: 50 + Math.random() * 60,
+          vx: -0.2 - Math.random() * 0.2,
+          alpha: 0.04 + Math.random() * 0.04
+        });
+      }
+      draw = () => {
+        ctx.clearRect(0, 0, W(), H());
+        for (const p of particles) {
+          const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+          grad.addColorStop(0, `rgba(210, 215, 230, ${p.alpha})`);
+          grad.addColorStop(1, "rgba(210, 215, 230, 0)");
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+          p.x += p.vx;
+          if (p.x + p.r < 0) p.x = W() + p.r;
+        }
+      };
+    }
+    else if (effect === "clear" && isNight) {
+      for (let i = 0; i < 30; i++) {
+        particles.push({
+          x: Math.random() * W(),
+          y: Math.random() * H() * 0.7,
+          r: 0.6 + Math.random() * 1.2,
+          twinkle: Math.random() * Math.PI * 2,
+          speed: 0.02 + Math.random() * 0.03
+        });
+      }
+      draw = () => {
+        ctx.clearRect(0, 0, W(), H());
+        ctx.fillStyle = "rgba(255, 250, 230, 0.9)";
+        for (const p of particles) {
+          p.twinkle += p.speed;
+          const a = 0.3 + Math.abs(Math.sin(p.twinkle)) * 0.6;
+          ctx.globalAlpha = a;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+      };
+    }
+    else if (effect === "clear") {
+      let t = 0;
+      draw = () => {
+        ctx.clearRect(0, 0, W(), H());
+        t += 0.005;
+        const cx = W() * 0.75;
+        const cy = H() * 0.2;
+        const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, W() * 0.7);
+        grad.addColorStop(0, `rgba(255, 210, 130, ${0.20 + Math.sin(t) * 0.05})`);
+        grad.addColorStop(1, "rgba(255, 210, 130, 0)");
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W(), H());
+      };
+    }
+    else {
+      return;
+    }
+
+    function loop() {
+      if (!running) return;
+      draw();
+      rafId = requestAnimationFrame(loop);
+    }
+    loop();
+
+    const onResize = () => { resize(); };
+    window.addEventListener("resize", onResize);
+
+    effectCleanups[canvasId] = () => {
+      running = false;
+      if (rafId) cancelAnimationFrame(rafId);
+      window.removeEventListener("resize", onResize);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    };
+  }
+
+  async function loadWeather(lat, lon, elId, canvasId, cityClass) {
+    const el = document.getElementById(elId);
+    if (!el) return;
+    try {
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,is_day&timezone=auto`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("weather fetch failed");
+      const data = await res.json();
+      const temp = Math.round(data.current.temperature_2m);
+      const code = data.current.weather_code;
+      const isDay = data.current.is_day;
+      const info = weatherInfo(code);
+
+      el.classList.remove("loading", "error");
+
+      let extra = "";
+      if (code >= 51 && code <= 99) {
+        extra = `<span class="rain-note">· bring an umbrella, babs ☔</span>`;
+      }
+
+      el.innerHTML = `
+        <span class="emoji">${info.emoji}</span>
+        <span class="temp">${temp}°C</span>
+        <span class="desc">${info.desc}</span>
+        ${extra}
+      `;
+
+      const cityEl = document.querySelector("." + cityClass);
+      if (cityEl) {
+        cityEl.classList.remove(
+          "effect-clear","effect-clouds","effect-rain",
+          "effect-thunder","effect-fog","effect-snow","effect-night","flash"
+        );
+
+        if (info.effect === "clear" && !isDay) {
+          cityEl.classList.add("effect-night");
+          startEffect(canvasId, "clear", true);
+        } else {
+          cityEl.classList.add("effect-" + info.effect);
+          startEffect(canvasId, info.effect, !isDay);
+        }
+      }
+    } catch (err) {
+      el.classList.remove("loading");
+      el.classList.add("error");
+      el.textContent = "weather unavailable";
+    }
+  }
+
+  loadWeather(CONFIG.weatherMe.lat,  CONFIG.weatherMe.lon,  "weather-sg", "canvas-sg", "city-sg");
+  loadWeather(CONFIG.weatherYou.lat, CONFIG.weatherYou.lon, "weather-ph", "canvas-ph", "city-ph");
+
+  setInterval(() => {
+    loadWeather(CONFIG.weatherMe.lat,  CONFIG.weatherMe.lon,  "weather-sg", "canvas-sg", "city-sg");
+    loadWeather(CONFIG.weatherYou.lat, CONFIG.weatherYou.lon, "weather-ph", "canvas-ph", "city-ph");
+  }, 900000);
+  /* ========== /WEATHER ========== */
 
   /* --- Special dates --- */
   const firstMetDate = new Date(CONFIG.firstMet);
@@ -1148,7 +1834,7 @@ function startSite() {
       gsap.set(ring, { x: rx, y: ry });
       requestAnimationFrame(loop);
     })();
-    document.querySelectorAll("a, button, .btn, .photo, .envelope, .monthsary-banner").forEach(el => {
+    document.querySelectorAll("a, button, .btn, .photo, .envelope, .voice, .monthsary-banner").forEach(el => {
       el.addEventListener("mouseenter", () => ring.classList.add("hover"));
       el.addEventListener("mouseleave", () => ring.classList.remove("hover"));
     });
@@ -1205,6 +1891,95 @@ function startSite() {
   }
   updateClocks();
   setInterval(updateClocks, 1000);
+
+  /* --- Voice notes --- */
+  const voices = document.querySelectorAll(".voice");
+  const onlyOneAtATime = true;
+  let currentlyPlaying = null;
+
+  function fmtTime(s) {
+    if (!isFinite(s) || isNaN(s)) return "--:--";
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return m + ":" + String(sec).padStart(2, "0");
+  }
+
+  voices.forEach((v) => {
+    const src = v.dataset.src;
+    const iconBtn = v.querySelector(".v-icon");
+    const progEl = v.querySelector(".v-progress");
+    const curEl = v.querySelector(".v-current");
+    const durEl = v.querySelector(".v-dur");
+    let audio = null;
+    const iconEl = iconBtn.querySelector("svg");
+
+    function setIcon(playing) {
+      iconEl.innerHTML = playing
+        ? '<rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/>'
+        : '<polygon points="6,4 20,12 6,20"/>';
+    }
+
+    function ensureAudio() {
+      if (audio) return audio;
+      audio = new Audio(src);
+      audio.preload = "none";
+      audio.addEventListener("loadedmetadata", () => {
+        durEl.textContent = fmtTime(audio.duration);
+      });
+      audio.addEventListener("timeupdate", () => {
+        const pct = (audio.currentTime / audio.duration) * 100 || 0;
+        progEl.style.width = pct + "%";
+        curEl.textContent = fmtTime(audio.currentTime);
+      });
+      audio.addEventListener("ended", () => {
+        v.classList.remove("playing");
+        setIcon(false);
+        progEl.style.width = "0%";
+        curEl.textContent = "0:00";
+        if (currentlyPlaying === v) currentlyPlaying = null;
+      });
+      audio.addEventListener("error", () => {
+        v.style.display = "none";
+      });
+      return audio;
+    }
+
+    function toggle(e) {
+      e.stopPropagation();
+      if (!userHasInteracted) {
+        userHasInteracted = true;
+        const p = music.play();
+        if (p && typeof p.then === "function") p.catch(() => {});
+      }
+
+      const a = ensureAudio();
+      if (a.paused) {
+        if (onlyOneAtATime && currentlyPlaying && currentlyPlaying !== v) {
+          const otherA = currentlyPlaying._audio;
+          if (otherA) { otherA.pause(); otherA.currentTime = 0; }
+          currentlyPlaying.classList.remove("playing");
+          const otherIcon = currentlyPlaying.querySelector(".v-icon svg");
+          if (otherIcon) otherIcon.innerHTML = '<polygon points="6,4 20,12 6,20"/>';
+          const otherProg = currentlyPlaying.querySelector(".v-progress");
+          if (otherProg) otherProg.style.width = "0%";
+        }
+        v._audio = a;
+        a.play().then(() => {
+          v.classList.add("playing");
+          setIcon(true);
+          currentlyPlaying = v;
+        }).catch(() => {});
+      } else {
+        a.pause();
+        v.classList.remove("playing");
+        setIcon(false);
+        if (currentlyPlaying === v) currentlyPlaying = null;
+      }
+    }
+
+    v.addEventListener("click", toggle);
+    iconBtn.addEventListener("click", toggle);
+  });
 
   /* --- Envelopes --- */
   document.querySelectorAll(".envelope").forEach(env => {
@@ -1335,7 +2110,7 @@ function startSite() {
     }
   });
 
-  /* --- Letter --- */
+  /* --- ORIGINAL LETTER --- */
   const letterBody =
 `Babs,
 
@@ -1375,6 +2150,63 @@ I'm not going anywhere.`;
             caret.remove();
             gsap.to(sigEl, { opacity: 1, duration: 0.8 });
           }, 500);
+        }
+      };
+      write();
+    }
+  });
+
+  /* --- DAILY LETTER --- */
+  const dailyLetterEl = document.getElementById("daily-letter-text");
+  const dailySigEl = document.getElementById("daily-signature");
+  const todayTag = document.getElementById("today-tag");
+
+  const dayNames = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+  function getTodayIndex() {
+    try {
+      const parts = new Intl.DateTimeFormat("en-US", {
+        timeZone: CONFIG.tzMe, weekday: "long"
+      }).formatToParts(new Date());
+      const wd = parts.find(p => p.type === "weekday").value;
+      return dayNames.indexOf(wd);
+    } catch (e) {
+      return new Date().getDay();
+    }
+  }
+
+  function getTodaysLetter() {
+    const idx = getTodayIndex();
+    const letters = CONFIG.dailyLetters || {};
+    return letters[idx] || "I love you, babs. Today and always.";
+  }
+
+  const todayIdx = getTodayIndex();
+  if (todayTag) todayTag.textContent = dayNames[todayIdx] || "Today";
+
+  const todaysLetterBody = getTodaysLetter();
+
+  let dailyTyped = false;
+  ScrollTrigger.create({
+    trigger: "#daily-letter-text",
+    start: "top 80%",
+    once: true,
+    onEnter: () => {
+      if (dailyTyped) return; dailyTyped = true;
+      let i = 0;
+      const caret = document.createElement("span");
+      caret.className = "caret";
+      dailyLetterEl.appendChild(caret);
+      const write = () => {
+        if (i < todaysLetterBody.length) {
+          caret.insertAdjacentText("beforebegin", todaysLetterBody[i]);
+          i++;
+          setTimeout(write, todaysLetterBody[i - 1] === "\n" ? 200 : 30);
+        } else {
+          setTimeout(() => {
+            caret.remove();
+            gsap.to(dailySigEl, { opacity: 1, duration: 0.8 });
+          }, 400);
         }
       };
       write();
